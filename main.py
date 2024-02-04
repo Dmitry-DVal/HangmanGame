@@ -104,7 +104,7 @@ word_list = ['год', 'человек', 'время', 'дело', 'жизнь',
            'танк', 'затрата', 'строка', 'единица'] # Список слов
 
 
-random_word = random.choice(word_list) # Выбор рандомного слова из словаря word_list
+
 
 
 
@@ -173,9 +173,35 @@ def draw_hangman(attempts): # Выводит состояние игры. Рис
     return picture[attempts]
 
 
+def word_state(letter):
+    # выводит состояние слова _О_ОВ_
+    if letter not in 'АБВГДЕЁЖЗИКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ':
+        print(f'Вы ввели не подходящий символ\nВведите букву русского алфавита')
+        letter = input().upper()
+        word_state(letter)
+    elif letter in used_letter:
+        print(f"Вы уже использовали эту букву, попытка не сгорает\nБудьте внимательнее\nВведите букву русского алфавита")
+        letter = input().upper()
+        word_state(letter)
+    else:
+        # Подумай как быть дальше
+
+def show_attemps(attempts):
+    return f'Количество попыток - {attempts} , введите букву русского алфавита'
+
+def gameplay():
+    print("""Добро пожаловать в игру 'Виселица!'""")
+    attempts = 6
+    random_word = random.choice(word_list).upper()  # Выбор рандомного слова из словаря word_list
+    used_letter = []
+
+    while attempts > 0:
+        print(show_attemps(attempts))
+        print(draw_hangman(attempts))
+        print('_' * len(random_word))
+        letter = input().upper()
+        word_state(letter)
 
 
-
-
-
+gameplay()
 
