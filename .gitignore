@@ -1,3 +1,9 @@
 # Default ignored files
 /shelf/
 /workspace.xml
+
+# Виртуальная среда
+venv/
+
+# Файлы проекта PyCharm
+.idea/
