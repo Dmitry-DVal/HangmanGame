@@ -158,30 +158,55 @@ def draw_hangman(attempts):
     ]
     return picture[attempts]
 
-random_word = random.choice(word_list).upper()  # Выбор рандомного слова из словаря word_list
+random_word = list(random.choice(word_list).upper())  # Выбор рандомного слова из словаря word_list
 
 attempts = 6 # Колицество попыток
 
-сancelled_letters = "_" * len(random_word) # Список отгаданных букв
+сancelled_letters = list("_" * len(random_word)) # Список отгаданных букв
 
 used_letters = [] # Список используемых букв
 
 
+my_can = list("_" * len(random_word))
+print(*my_can)
+print(*random_word)
+
+
+print("Добро пожалость в игру 'Виселица'!")
+print(draw_hangman(attempts))
+print(random_word) # Удали потом
+print(сancelled_letters)
+print(f"Загаданое слово состоит из {len(random_word)}")
+
 while attempts > 0:
     letter = input("Введите букву русского алфавита").upper()
     if letter not in 'АБВГДЕЁЖЗИКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ':
-        print(f'Вы ввели не подходящий символ\nВведите букву русского алфавита')
+        print(f'Вы ввели не подходящий символ')
         print(f'Выша попытка не сгорает')
-        letter = input("Введите букву русского алфавита").upper()
     elif letter in used_letters:
         print(f'Вы уже использовали эту букву')
         print(f'Выша попытка не сгорает')
-        letter = input("Введите букву русского алфавита").upper()
-    elif letter in random_word:
-        print(f'Буква {letter}, есть в слове')
+    elif letter not in random_word:
         attempts -= 1
-        print(draw_hangman())
+        print(f'Буквы {letter}, нет в загаданном слове')
+        print(draw_hangman(attempts))
+        print(f'Осталось попыток {attempts}')
+        print(*сancelled_letters)
+        used_letters.append(letter)
     else:
-        print(f'Буквы {letter}, нет в слове')
-        attempts -= 1
-        print(draw_hangman())
+        used_letters.append(letter)
+        for i in range(random_word.count(letter)):
+            ind = random_word.index(letter)
+            random_word.insert(ind, '*')
+            del random_word[ind + 1]
+            сancelled_letters.insert(ind, letter)
+            del сancelled_letters[ind+1]
+        print(f'Буква {letter}, есть в слове')
+        print(draw_hangman(attempts))
+        print(*сancelled_letters)
+
+    
+        # Выввести списое отгаданных букв
+
+
+print(used_letters)
