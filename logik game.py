@@ -164,53 +164,52 @@ my_flag = random_word.copy()
 
 attempts = 6 # Колицество попыток
 
-сancelled_letters = list("_" * len(random_word)) # Список отгаданных букв
+cancelled_letters = list("_" * len(random_word)) # Список отгаданных букв
 
 used_letters = [] # Список используемых букв
 
 
-my_can = list("_" * len(random_word))
-print(*my_can)
-print(*random_word)
+
 
 
 print("Добро пожалость в игру 'Виселица'!")
 print(draw_hangman(attempts))
-print(random_word) # Удали потом
-print(сancelled_letters)
+print(*cancelled_letters)
+print(*random_word) # удали потом
 print(f"Загаданое слово состоит из {len(random_word)}")
+print(f"У Вас есть 6 попыток")
 
 while attempts > 0:
-    letter = input("Введите букву русского алфавита").upper()
-    if letter not in 'АБВГДЕЁЖЗИКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ':
+    letter = input("Введите букву русского алфавита\n").upper()
+    print(f"Использованные буквы: {used_letters}")
+    if letter not in 'АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ' or len(letter) > 1:
         print(f'Вы ввели не подходящий символ')
         print(f'Выша попытка не сгорает')
     elif letter in used_letters:
-        print(f'Вы уже использовали эту букву')
+        print(f'Вы уже использовали букву {letter}')
         print(f'Выша попытка не сгорает')
     elif letter not in random_word:
         attempts -= 1
-        print(f'Буквы {letter}, нет в загаданном слове')
+        print(f"Буквы '{letter}' нет в загаданном слове")
         print(draw_hangman(attempts))
-        print(f'Осталось попыток {attempts}')
-        print(*сancelled_letters)
+        print(f'Осталось попыток: {attempts}')
+        print(*cancelled_letters)
         used_letters.append(letter)
     else:
         used_letters.append(letter)
         for i in range(random_word.count(letter)):
             ind = random_word.index(letter)
-            random_word.insert(ind, '*')
-            del random_word[ind + 1]
-            сancelled_letters.insert(ind, letter)
-            del сancelled_letters[ind+1]
-        print(f'Буква {letter}, есть в слове')
+            random_word[ind] = '*'
+            cancelled_letters[ind] = letter
+        print(f"Буква '{letter}', есть в слове")
         print(draw_hangman(attempts))
-        print(*сancelled_letters)
-    if сancelled_letters == my_flag:
+        print(*cancelled_letters)
+    if cancelled_letters == my_flag:
+        print(f"Поздравляю, Вы победили!!!")
         break
+    elif attempts == 0:
+        print(f"Выши попытки закончились, вы проиграли(")
 
-print(f"Поздравляю, Вы попедили!!!")
-        # Выввести списое отгаданных букв
+# Выввести списое отгаданных букв
 
 
-print(used_letters)
