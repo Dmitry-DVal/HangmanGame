@@ -160,6 +160,8 @@ def draw_hangman(attempts):
 
 random_word = list(random.choice(word_list).upper())  # Выбор рандомного слова из словаря word_list
 
+my_flag = random_word.copy()
+
 attempts = 6 # Колицество попыток
 
 сancelled_letters = list("_" * len(random_word)) # Список отгаданных букв
@@ -204,8 +206,10 @@ while attempts > 0:
         print(f'Буква {letter}, есть в слове')
         print(draw_hangman(attempts))
         print(*сancelled_letters)
+    if сancelled_letters == my_flag:
+        break
 
-    
+print(f"Поздравляю, Вы попедили!!!")
         # Выввести списое отгаданных букв
 
 
