@@ -103,21 +103,6 @@ word_list = ['год', 'человек', 'время', 'дело', 'жизнь',
            'препарат', 'действительность', 'москвич', 'остаток', 'изображение', 'сделка', 'сочинение', 'покупатель',
            'танк', 'затрата', 'строка', 'единица'] # Список слов
 
-
-
-
-
-
-# ход игры
-## Приветсвие игрока
-
-## Обращение к функции рисующуй виселицу # рисунок, вывод к-ва букв
-## Выбор буквы (проверка на нужный символ, проверка на уже используемые буквы)
-## Уменьшние к-ва попыток или осталось тоже к=во
-## Итоги игры
-## Предложение завершить игру или начать заново
-
-
 def draw_hangman(attempts): # Выводит состояние игры. Рисует виселицу в зависимости от попыток
     picture = [
         '''
@@ -173,35 +158,52 @@ def draw_hangman(attempts): # Выводит состояние игры. Рис
     return picture[attempts]
 
 
-def word_state(letter):
-    # выводит состояние слова _О_ОВ_
-    if letter not in 'АБВГДЕЁЖЗИКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ':
-        print(f'Вы ввели не подходящий символ\nВведите букву русского алфавита')
-        letter = input().upper()
-        word_state(letter)
-    elif letter in used_letter:
-        print(f"Вы уже использовали эту букву, попытка не сгорает\nБудьте внимательнее\nВведите букву русского алфавита")
-        letter = input().upper()
-        word_state(letter)
-    else:
-        # Подумай как быть дальше
-
-def show_attemps(attempts):
-    return f'Количество попыток - {attempts} , введите букву русского алфавита'
 
 def gameplay():
-    print("""Добро пожаловать в игру 'Виселица!'""")
-    attempts = 6
-    random_word = random.choice(word_list).upper()  # Выбор рандомного слова из словаря word_list
-    used_letter = []
+    random_word = list(random.choice(word_list).upper())  # Выбор рандомного слова из словаря word_list
+    my_flag = random_word.copy() # Копия рандомного слова
+    attempts = 6  # Колицество попыток
+    cancelled_letters = list("_" * len(random_word))  # Список отгаданных букв
+    used_letters = []  # Список использованных букв
+
+    print("Добро пожалость в игру 'Виселица'!")
+    print(draw_hangman(attempts))
+    print(*cancelled_letters)
+    print(*random_word)  # удали потом
+    print(f"Загаданое слово состоит из {len(random_word)} букв")
+    print(f"У Вас есть 6 попыток")
 
     while attempts > 0:
-        print(show_attemps(attempts))
-        print(draw_hangman(attempts))
-        print('_' * len(random_word))
-        letter = input().upper()
-        word_state(letter)
+        letter = input("Введите букву русского алфавита:\n").upper()
 
+        if letter not in 'АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ' or len(letter) > 1:
+            print(f'Вы ввели не подходящий символ')
+            print(f'Выша попытка не сгорает')
+        elif letter in used_letters:
+            print(f'Вы уже использовали букву {letter}')
+            print(f'Выша попытка не сгорает')
+        elif letter not in random_word:
+            attempts -= 1
+            print(f"Буквы '{letter}' нет в загаданном слове")
+            print(draw_hangman(attempts))
+            print(f'Осталось попыток: {attempts}')
+            print(*cancelled_letters)
+            used_letters.append(letter)
+        else:
+            used_letters.append(letter)
+            for i in range(random_word.count(letter)):
+                ind = random_word.index(letter)
+                random_word[ind] = '*'
+                cancelled_letters[ind] = letter
+            print(f"Буква '{letter}', есть в слове")
+            print(draw_hangman(attempts))
+            print(*cancelled_letters)
+        if cancelled_letters == my_flag:
+            print(f"Поздравляю, Вы победили!!!")
+            break
+        elif attempts == 0:
+            print(f"Выши попытки закончились, вы проиграли(")
+        print(f"Использованные буквы: {used_letters}")
 
 gameplay()
 
