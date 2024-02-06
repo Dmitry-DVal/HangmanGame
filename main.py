@@ -157,7 +157,13 @@ def draw_hangman(attempts): # Выводит состояние игры. Рис
     ]
     return picture[attempts]
 
-
+def print_start_massege(random_word, attempts, cancelled_letters):
+    print("Добро пожалость в игру 'Виселица'!")
+    print(draw_hangman(attempts))
+    print(*cancelled_letters)
+    print(*random_word)  # удали потом
+    print(f"Загаданое слово состоит из {len(random_word)} букв")
+    print(f"У Вас есть 6 попыток")
 
 def gameplay():
     random_word = list(random.choice(word_list).upper())  # Выбор рандомного слова из словаря word_list
@@ -166,12 +172,7 @@ def gameplay():
     cancelled_letters = list("_" * len(random_word))  # Список отгаданных букв
     used_letters = []  # Список использованных букв
 
-    print("Добро пожалость в игру 'Виселица'!")
-    print(draw_hangman(attempts))
-    print(*cancelled_letters)
-    print(*random_word)  # удали потом
-    print(f"Загаданое слово состоит из {len(random_word)} букв")
-    print(f"У Вас есть 6 попыток")
+    print_start_massege(random_word, attempts, cancelled_letters) # Приветсвие
 
     while attempts > 0:
         letter = input("Введите букву русского алфавита:\n").upper()
@@ -200,9 +201,21 @@ def gameplay():
             print(*cancelled_letters)
         if cancelled_letters == my_flag:
             print(f"Поздравляю, Вы победили!!!")
-            break
+            print(f'Вы хотите сыграть еще раз?\nД - Да\nН - Нет')
+            answer = input().upper()
+            if answer == 'Д':
+                gameplay()
+            else:
+                break
         elif attempts == 0:
             print(f"Выши попытки закончились, вы проиграли(")
+            print(f'Вы хотите сыграть еще раз?\nД - Да\nН - Нет')
+            answer = input().upper()
+            if answer == 'Д':
+                gameplay()
+            else: # Доработать проверку ответа
+                break
+            break
         print(f"Использованные буквы: {used_letters}")
 
 gameplay()
