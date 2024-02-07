@@ -1,4 +1,4 @@
-# Игра Висилица
+# Игра Виселица
 
 ## Ссылка с информацией
 https://zhukovsd.github.io/python-backend-learning-course/Projects/Hangman/
