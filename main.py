@@ -26,23 +26,23 @@ def check_used_letters(letter, used_letters):
         return False
 
 
-def check_letter_in_random_word(letter, random_word, attempts, cancelled_letters, used_letters):
+def check_letter_in_random_word(letter, random_word, attempts, guessed_letters, used_letters):
     if letter not in random_word:
         attempts -= 1
         print(f"Буквы '{letter}' нет в загаданном слове")
         print(draw_hangman(attempts))
         print(f'Осталось попыток: {attempts}')
-        print(*cancelled_letters)
+        print(*guessed_letters)
         used_letters.append(letter)
     else:
         used_letters.append(letter)
         for i in range(random_word.count(letter)):
             ind = random_word.index(letter)
             random_word[ind] = '*'
-            cancelled_letters[ind] = letter
+            guessed_letters[ind] = letter
         print(f"Буква '{letter}', есть в слове")
         print(draw_hangman(attempts))
-        print(*cancelled_letters)
+        print(*guessed_letters)
     print(f"Использованные буквы: {used_letters}")
     return attempts
 
@@ -66,14 +66,17 @@ def print_start_massege(random_word, attempts, cancelled_letters):
     print(f"У Вас есть 6 попыток")
 
 
+def get_initial_data():
+    random_word = choice_random_word()  # Выбор рандомного слова
+    my_flag = random_word.copy() # Копия рандомного слова
+    attempts = 6 # Количество попыток
+    guessed_letters = list("_" * len(random_word)) # Список отгаданных букв
+    used_letters = [] # Список использованных букв
+    return random_word, my_flag, attempts, guessed_letters, used_letters
 def gameplay():
-    random_word = choice_random_word()  # Выбор рандомного слова из словаря word_list
-    my_flag = random_word.copy()  # Копия рандомного слова
-    attempts = 6  # Количество попыток
-    cancelled_letters = list("_" * len(random_word))  # Список отгаданных букв
-    used_letters = []  # Список использованных букв
+    random_word, my_flag, attempts, guessed_letters, used_letters = get_initial_data()
 
-    print_start_massege(random_word, attempts, cancelled_letters)  # Приветствие
+    print_start_massege(random_word, attempts, guessed_letters)  # Приветствие
 
     while attempts > 0:
         letter = input("Введите букву русского алфавита:\n").upper()
@@ -81,8 +84,8 @@ def gameplay():
             continue
         elif check_used_letters(letter, used_letters):
             continue
-        attempts = check_letter_in_random_word(letter, random_word, attempts, cancelled_letters, used_letters)
-        if check_end_of_game(cancelled_letters, my_flag, attempts):
+        attempts = check_letter_in_random_word(letter, random_word, attempts, guessed_letters, used_letters)
+        if check_end_of_game(guessed_letters, my_flag, attempts):
             break
         else:
             continue
