@@ -1,63 +1,11 @@
 import random
+from draw_hangman import draw_hangman
 
 def choice_random_word():
     with open('word_list.txt', encoding='utf-8') as file:
         random_word = list(random.choice([word.strip("',") for word in file.read().upper().split()]))
     return random_word
-# Функуия выводит состояние игра
-def draw_hangman(attempts): # Выводит состояние игры. Рисует виселицу в зависимости от попыток
-    picture = [
-        '''
-      _______
-      |     |
-      |    \\O/
-      |     |
-      |     /\\
-    ----- ''',
-        '''
-      _______
-      |     |
-      |    \\O/
-      |     |
-      |     /
-    ----- ''',
-        '''
-      _______
-      |     |
-      |    \\O/
-      |     |
-      |     
-    ----- ''',
-        '''
-      _______
-      |     |
-      |    \\O/
-      |     
-      |     
-    ----- ''',
-        '''
-      _______
-      |     |
-      |    \\O
-      |     
-      |     
-    ----- ''',
-        '''
-      _______
-      |     |
-      |     O
-      |     
-      |     
-    ----- ''',
-        '''
-      _______
-      |     |
-      |     
-      |     
-      |     
-    ----- '''
-    ]
-    return picture[attempts]
+
 
 # Приветствие
 def print_start_massege(random_word, attempts, cancelled_letters):
