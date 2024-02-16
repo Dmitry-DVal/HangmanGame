@@ -14,8 +14,13 @@ def check_input_letter(letter):
     else:
         return False
 
-# def check_used_letters():
-#     pass
+def check_used_letters(letter, used_letters):
+    if letter in used_letters:
+        print(f'Вы уже использовали букву {letter}')
+        print(f'Выша попытка не сгорает')
+        return True
+    else:
+        return False
 
 # Приветствие
 def print_start_massege(random_word, attempts, cancelled_letters):
@@ -39,9 +44,8 @@ def gameplay():
 
         if check_input_letter(letter):
             continue
-        elif letter in used_letters:
-            print(f'Вы уже использовали букву {letter}')
-            print(f'Выша попытка не сгорает')
+        elif check_used_letters(letter, used_letters):
+            continue
         elif letter not in random_word:
             attempts -= 1
             print(f"Буквы '{letter}' нет в загаданном слове")
