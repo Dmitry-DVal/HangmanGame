@@ -12,10 +12,10 @@ UsedLetter = "Вы уже использовали букву"
 LastMessage = "Загаданное слово было:"
 NoLetter = "- этой буквы нет в загаданном слове"
 YesLetter = "- эта буква есть в загаданном слове"
-LenWord = "букв - длина загаданного слова"
+LenWord = "- длина загаданного слова"
 ShowingUsedLetters = "Использованные буквы:"
 ShowingAttempts = "Осталось попыток:"
-WillingnessPlay = "Вы хотите сыграть еще раз?\nД - Да\nН - Нет"
+WillingnessPlay = "Вы хотите сыграть в игру?\nД - Да\nН - Нет"
 
 
 def choice_random_word():
@@ -114,8 +114,6 @@ def check_play_again():
     answer = input().upper()
     return answer == 'Д'
 
-
-gameplay()
-
-while check_play_again():
-    gameplay()
+if __name__ == '__main__':
+    while check_play_again():
+        gameplay()
