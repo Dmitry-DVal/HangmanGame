@@ -6,6 +6,16 @@ def choice_random_word():
         random_word = list(random.choice([word.strip("',") for word in file.read().upper().split()]))
     return random_word
 
+def check_input_letter(letter):
+    if letter not in 'АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ' or len(letter) > 1:
+        print(f'Вы ввели не подходящий символ')
+        print(f'Ваша попытка не сгорает')
+        return True
+    else:
+        return False
+
+# def check_used_letters():
+#     pass
 
 # Приветствие
 def print_start_massege(random_word, attempts, cancelled_letters):
@@ -27,9 +37,8 @@ def gameplay():
     while attempts > 0:
         letter = input("Введите букву русского алфавита:\n").upper()
 
-        if letter not in 'АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ' or len(letter) > 1: #
-            print(f'Вы ввели не подходящий символ')
-            print(f'Ваша попытка не сгорает')
+        if check_input_letter(letter):
+            continue
         elif letter in used_letters:
             print(f'Вы уже использовали букву {letter}')
             print(f'Выша попытка не сгорает')
