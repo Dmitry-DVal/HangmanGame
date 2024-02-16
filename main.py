@@ -46,6 +46,16 @@ def check_letter_in_random_word(letter, random_word, attempts, cancelled_letters
     print(f"Использованные буквы: {used_letters}")
     return attempts
 
+def check_end_of_game(cancelled_letters, my_flag, attempts):
+    if cancelled_letters == my_flag:
+        print(f"Поздравляю, Вы победили!!!")
+        return True
+    elif attempts == 0:
+        print(f"Выши попытки закончились, вы проиграли(")
+        print(f'Загаданное слово было: {my_flag}')
+        return True
+    else:
+        return False
 
 # Приветствие
 def print_start_massege(random_word, attempts, cancelled_letters):
@@ -67,20 +77,15 @@ def gameplay():
 
     while attempts > 0:
         letter = input("Введите букву русского алфавита:\n").upper()
-
         if check_input_letter(letter):
             continue
         elif check_used_letters(letter, used_letters):
             continue
         attempts = check_letter_in_random_word(letter, random_word, attempts, cancelled_letters, used_letters)
-        if cancelled_letters == my_flag:
-            print(f"Поздравляю, Вы победили!!!")
+        if check_end_of_game(cancelled_letters, my_flag, attempts):
             break
-        elif attempts == 0:
-            print(f"Выши попытки закончились, вы проиграли(")
-            print(f'Загаданное слово было: {my_flag}')
-            break
-
+        else:
+            continue
 
 def check_play_again():
     print(f'Вы хотите сыграть еще раз?\nД - Да\nН - Нет')
